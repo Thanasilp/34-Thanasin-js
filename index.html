@@ -12,8 +12,11 @@
     <div class="p-4 bg-red-50">
       <h1 class="text-6xl text-center text-white font-extrabold py-4 bg-red-700 rounded-xl hover:bg-red-500">PEPEGA
         SHOPPING CART</h1>
-      <div class="flex justify-center pb-8">
+      <div class="flex justify-items-center justify-center pb-8 items-center">
+        <img src="./public/happy-clap.gif" alt="pepe clap" class="object-contain" style="height: 100px; width: 100px;">
         <img src="./public/pepe-money.gif" alt="pepe money" class="scale-125 hover:scale-150">
+        <img src="./public/happy-clap.gif" alt="pepe clap" class="object-contain scale-x-[-1]"
+          style="height: 100px; width: 100px;">
       </div>
 
       <!-- Product Form -->
@@ -76,6 +79,8 @@
     const secondDashHeading = document.getElementById("headingForProductForm");
     const productList = document.getElementById("productDashboard");
     const chosenProduct = document.getElementById("productForm");
+    const selectAllBtn = document.getElementById("selectAllBtn");
+    const resetBtn = document.getElementById("resetBtn");
 
     let newArr = [];
 
@@ -110,7 +115,8 @@
           id: Date.now(),
           name: productInputValue,
           price: priceInputValue,
-          url: urlInputValue
+          url: urlInputValue,
+          checked: false
         }
         newArr.push(product);
         dashboardRenderer(newArr);
@@ -149,8 +155,8 @@
         const createProducts = document.createElement("li");
         createProducts.innerHTML = `
                 <div class = "flex w-full">
-                    <input type ="checkbox" id = "selectedProduct">
-                    <img src="${product.url}" alt="${product.name}" style="width: 100px; height: 100px;">
+                    <input type ="checkbox" class="selectedProduct accent-red-600" id = "selectedProduct">
+                    <img src="${product.url}" alt="${product.name}" class ="px-4 object-contain" style="width: 150px; height: 150px;">
                     <div class = "flex flex-col justify-center">
                         <h4 class = "text-xl"><strong>Product:</strong> ${product.name}</h4>
                         <p class = "text-xl"><strong>Price:</strong> $${product.price}</p>
@@ -209,7 +215,19 @@
       dashboardRenderer(newArr);
     }
 
+    // Select All products
+    selectAllBtn.addEventListener("click", () => {
+      const checkboxes = document.querySelectorAll(".selectedProduct");
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = true;
+      });
+    });
 
+    // Reset products
+    resetBtn.addEventListener("click", () => {
+      newArr = []; // Clear all products
+      dashboardRenderer(newArr); // Re-render the product list (which will now be empty)
+    });
   })
 </script>
 
