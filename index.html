@@ -155,7 +155,7 @@
         const createProducts = document.createElement("li");
         createProducts.innerHTML = `
                 <div class = "flex w-full">
-                    <input type ="checkbox" class="selectedProduct accent-red-600" id = "selectedProduct">
+                    <input type ="checkbox" class="selectedProduct ${product.checked ? 'checked' : ''} accent-red-600" id = "selectedProduct">
                     <img src="${product.url}" alt="${product.name}" class ="px-4 object-contain" style="width: 150px; height: 150px;">
                     <div class = "flex flex-col justify-center">
                         <h4 class = "text-xl"><strong>Product:</strong> ${product.name}</h4>
@@ -194,12 +194,16 @@
         // Ensure the new name is not a duplicate of any other product's name (excluding the current product)
         if (displayedPrompt !== null && displayedPrompt.trim()) {
           const isDuplicate = newArr.some((p) => p.name.toLowerCase() === displayedPrompt.trim().toLowerCase() && p.id !== id);
+
           if (isDuplicate) {
             alert("Product with this name already exists! Please choose a different name. Why you're so PEPEGA!");
             return; // Exit if a duplicate is found
           }
           // Update product name if no duplicates
           product.name = displayedPrompt.trim();
+        } else if (displayedPrompt === "") {
+          alert("Please fill your product name, PEPEGA")
+          return;
         }
 
         if (displayedPrompt2 !== null) {
