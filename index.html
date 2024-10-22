@@ -9,33 +9,50 @@
 
 <body>
   <div class="flex justify-center">
-    <div class="p-4 bg-red-100">
-      <h1 class="text-4xl text-center text-red-600 font-extrabold">PEPEGA SHOPPING CART</h1>
-      <div class="flex justify-center pb-4">
+    <div class="p-4 bg-red-50">
+      <h1 class="text-6xl text-center text-white font-extrabold py-4 bg-red-700 rounded-xl hover:bg-red-500">PEPEGA
+        SHOPPING CART</h1>
+      <div class="flex justify-center pb-8">
         <img src="./public/pepe-money.gif" alt="pepe money" class="scale-125 hover:scale-150">
       </div>
-
-      <h3 class="text-2xl pb-4 font-bold text-red-500 ">Add item for selection</h3>
-      <div>
-        <span class="text-xl">Product Name:</span>
-        <input type="text" id="productInput" class="border border-red-200 rounded-md flex-grow pl-2 mr-2" required>
-        <span class="text-xl">Price:</span>
-        <input type="number" id="priceInput" min="1" max="10000000000" required data-type="number"
-          class="border border-red-200 rounded-md flex-grow pl-2 mr-2">
-        <span class="text-xl">Image:</span>
-        <input type="url" id="urlInput" class="border border-red-200 rounded-md flex-grow pl-2 mr-2" data-type="url"
-          required>
-        <button type="button" id="createBtn"
-          class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-1 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Create
-          Product</button>
+      <!-- Product Form -->
+      <h3 class="text-2xl pb-2 font-bold text-red-700 text-center hover:text-red-500">Add your PEPEGA item for selection
+      </h3>
+      <div class="bg-red-100 p-4 rounded-md">
+        <div class="">
+          <span class="text-xl text-gray-600 font-semibold">Product Name:</span>
+          <input type="text" id="productInput" class="border border-red-200 rounded-md flex-grow pl-2 mr-2" required>
+          <span class="text-xl" text-gray-600 font-semibold>Price:</span>
+          <input type="number" id="priceInput" min="1" max="10000000000" required data-type="number"
+            class="border border-red-200 rounded-md flex-grow pl-2 mr-2">
+          <span class="text-xl" text-gray-600 font-semibold>Image:</span>
+          <input type="url" id="urlInput" class="border border-red-200 rounded-md flex-grow pl-2 mr-2" data-type="url"
+            required>
+          <button type="button" id="createBtn"
+            class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-1 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Create
+            Product</button>
+        </div>
       </div>
-      <div class="flex justify-center bg-red-200 rounded">
-        <ul id="productDashboard"></ul>
-      </div>
-    </div>
 
-    <div>
-      <ul id="productForm"></ul>
+      <!-- Product Dashboard section -->
+      <section>
+        <div class="flex justify-center">
+          <h2 id="headingForProductDash"></h2>
+        </div>
+        <div class="flex justify-center bg-red-200 rounded">
+          <ul id="productDashboard"></ul>
+        </div>
+      </section>
+
+      <!-- Product Form section -->
+      <section>
+        <div class="flex justify-center">
+          <h2 id="headingForProductForm"></h2>
+        </div>
+        <div>
+          <ul id="productForm"></ul>
+        </div>
+      </section>
     </div>
   </div>
 </body>
@@ -46,6 +63,8 @@
     const priceInput = document.getElementById("priceInput");
     const urlInput = document.getElementById("urlInput");
     const createBtn = document.getElementById("createBtn");
+    const firstDashHeading = document.getElementById("headingForProductDash");
+    const secondDashHeading = document.getElementById("headingForProductForm");
     const productList = document.getElementById("productDashboard");
     const chosenProduct = document.getElementById("productForm");
 
@@ -70,6 +89,9 @@
         priceInput.value = "";
         urlInput.value = "";
 
+        //add heading when we add products
+        firstDashHeading.textContent = "YOUR PEPEGA PRODUCT"
+        firstDashHeading.className = "text-4xl text-center text-red-500 font-bold py-4"
 
       } else {
         alert("Please fill all these fields if you want to join PEPEGA community!.")
@@ -79,6 +101,15 @@
 
     function dashboardRenderer(productProperties) {
       productList.innerHTML = "";
+
+      if (productProperties.length === 0) {
+        // If no products, hide the heading
+        firstDashHeading.textContent = "";
+      } else {
+        // If there are products, show the heading
+        firstDashHeading.textContent = "YOUR PEPEGA PRODUCT";
+      }
+
       productProperties.forEach((product) => {
         const createProducts = document.createElement("li");
         createProducts.innerHTML = `
@@ -98,11 +129,40 @@
         createProducts.className = "flex justify-center md: items-center bg-red-200 px-4 py-2 m-2 rounded"
         productList.appendChild(createProducts);
 
-        const editBtn = document.getElementById("editBtn");
-        const deleteBtn = document.getElementById("deleteBtn");
+        //create button variables to retrieve their IDs. NOTE: you cannot write like this const editBtn = document.querySelector("#editBtn");
+        const editBtn = createProducts.querySelector("#editBtn");
+        const deleteBtn = createProducts.querySelector("#deleteBtn");
+
+        //add function to those buttons
+        editBtn.addEventListener("click", () => editProduct(product.id));
+        deleteBtn.addEventListener("click", () => deleteProduct(product.id));
       })
     }
 
+    function editProduct(id) {
+      //use find() method to find the product that we selected on screen (it will find the matched-id for us and show on the prompt container)
+      const product = newArr.find((p) => p.id === id);
+      if (product) {
+        //create a prompt
+        const displayedPrompt = prompt("Please edit your product name:", product.name);
+        const displayedPrompt2 = prompt("Please edit your product price:", product.price);
+        //check wheter displayedPrompt and displayedPrompt2 having values or not
+        if (displayedPrompt !== null) {
+          product.name = displayedPrompt.trim();
+        }
+
+        if (displayedPrompt2 !== null) {
+          product.price = displayedPrompt2;
+        }
+        dashboardRenderer(newArr);
+      }
+    }
+
+    function deleteProduct(id) {
+      //use filter() method to filter the unwanted task
+      newArr = newArr.filter((p) => p.id !== id);
+      dashboardRenderer(newArr);
+    }
 
 
   })
