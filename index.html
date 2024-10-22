@@ -43,6 +43,14 @@
         <div class="flex justify-center bg-red-200 rounded">
           <ul id="productDashboard"></ul>
         </div>
+
+        <!-- At normal stage, we are hiding these buttons below -->
+        <div id="buttonsContainer" style="display: none;" class="flex justify-center pt-4">
+          <button id="selectAllBtn" class="text-white bg-stone-400 hover:bg-stone-500 px-4 py-2 rounded-md">Select
+            All</button>
+          <button id="resetBtn"
+            class="text-white bg-orange-300 hover:bg-orange-400 px-4 py-2 ml-4 rounded-md">Reset</button>
+        </div>
       </section>
 
       <!-- Cart section -->
@@ -77,7 +85,7 @@
       const urlInputValue = urlInput.value;
 
       // Check if the price input is a valid number greater than 0
-      if (priceInputValue <= 0 || isNaN(priceInputValue)) {
+      if (priceInputValue <= 0 || isNaN(priceInputValue) || /^0/.test(priceInputValue)) {
         alert("Price must be a valid number greater than 0. ZERO mean FREE, you PEPEGA");
         return; // Stop if the price is invalid
       }
@@ -128,9 +136,13 @@
       if (productProperties.length === 0) {
         // If no products, hide the heading
         firstDashHeading.textContent = "";
+        // If no products, hide reset and select all buttons
+        buttonsContainer.style.display = "none";
       } else {
         // If there are products, show the heading
         firstDashHeading.textContent = "YOUR PEPEGA PRODUCT";
+        // If there are products, show buttons
+        buttonsContainer.style.display = "flex";
       }
 
       productProperties.forEach((product) => {
