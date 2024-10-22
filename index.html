@@ -74,6 +74,15 @@
       const productInputValue = productInput.value.trim();
       const priceInputValue = priceInput.value;
       const urlInputValue = urlInput.value;
+
+      //Check if the product name already exists
+      const isDuplicate = newArr.some((product) => product.name.toLowerCase() === productInputValue.toLowerCase());
+
+      if (isDuplicate) {
+        alert("Product with this name already exists! Please choose a different name, YOU'RE SO PEPEGA.");
+        return; // Stop the function here if duplicate is found
+      }
+
       if (productInputValue && priceInputValue && urlInputValue) {
         const product = {
           id: Date.now(),
@@ -140,14 +149,24 @@
     }
 
     function editProduct(id) {
+
       //use find() method to find the product that we selected on screen (it will find the matched-id for us and show on the prompt container)
       const product = newArr.find((p) => p.id === id);
+
       if (product) {
         //create a prompt
         const displayedPrompt = prompt("Please edit your product name:", product.name);
         const displayedPrompt2 = prompt("Please edit your product price:", product.price);
+
         //check wheter displayedPrompt and displayedPrompt2 having values or not
-        if (displayedPrompt !== null) {
+        // Ensure the new name is not a duplicate of any other product's name (excluding the current product)
+        if (displayedPrompt !== null && displayedPrompt.trim()) {
+          const isDuplicate = newArr.some((p) => p.name.toLowerCase() === displayedPrompt.trim().toLowerCase() && p.id !== id);
+          if (isDuplicate) {
+            alert("Product with this name already exists! Please choose a different name. Why you're so PEPEGA!");
+            return; // Exit if a duplicate is found
+          }
+          // Update product name if no duplicates
           product.name = displayedPrompt.trim();
         }
 
