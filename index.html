@@ -9,28 +9,31 @@
 
 <body>
   <div class="flex justify-center">
-    <div class="p-4">
-      <h1 class="text-4xl text-center text-red-600 font-extrabold">SHOPPING CART</h1>
+    <div class="p-4 bg-red-100">
+      <h1 class="text-4xl text-center text-red-600 font-extrabold">PEPEGA SHOPPING CART</h1>
       <div class="flex justify-center pb-4">
-        <img src="./public/pepe-le-pew-rotate.gif" alt="pepe spin">
+        <img src="./public/pepe-money.gif" alt="pepe money" class="scale-125 hover:scale-150">
       </div>
 
-      <h3 class="text-2xl pb-4 font-bold text-red-500">Add item for selection</h3>
+      <h3 class="text-2xl pb-4 font-bold text-red-500 ">Add item for selection</h3>
       <div>
         <span class="text-xl">Product Name:</span>
-        <input type="text" id="productInput" class="border border-red-400 rounded-md flex-grow pl-2 mr-2">
+        <input type="text" id="productInput" class="border border-red-200 rounded-md flex-grow pl-2 mr-2" required>
         <span class="text-xl">Price:</span>
-        <input type="text" id="priceInput" class="border border-red-400 rounded-md flex-grow pl-2 mr-2">
+        <input type="number" id="priceInput" min="1" max="10000000000" required data-type="number"
+          class="border border-red-200 rounded-md flex-grow pl-2 mr-2">
         <span class="text-xl">Image:</span>
-        <input type="url" id="urlInput" class="border border-red-400 rounded-md flex-grow pl-2 mr-2">
+        <input type="url" id="urlInput" class="border border-red-200 rounded-md flex-grow pl-2 mr-2" data-type="url"
+          required>
         <button type="button" id="createBtn"
           class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-1 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Create
           Product</button>
       </div>
+      <div class="flex justify-center bg-red-200 rounded">
+        <ul id="productDashboard"></ul>
+      </div>
     </div>
-    <div>
-      <ul id="productDashboard"></ul>
-    </div>
+
     <div>
       <ul id="productForm"></ul>
     </div>
@@ -39,12 +42,66 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const productInput = document.getElementById("");
-    const priceInput = document.getElementById("");
-    const urlInput = document.getElementById("");
-    const createBtn = document.getElementById("");
+    const productInput = document.getElementById("productInput");
+    const priceInput = document.getElementById("priceInput");
+    const urlInput = document.getElementById("urlInput");
+    const createBtn = document.getElementById("createBtn");
+    const productList = document.getElementById("productDashboard");
+    const chosenProduct = document.getElementById("productForm");
 
     let newArr = [];
+
+    createBtn.addEventListener("click", () => {
+      const productInputValue = productInput.value.trim();
+      const priceInputValue = priceInput.value;
+      const urlInputValue = urlInput.value;
+      if (productInputValue && priceInputValue && urlInputValue) {
+        const product = {
+          id: Date.now(),
+          name: productInputValue,
+          price: priceInputValue,
+          url: urlInputValue
+        }
+        newArr.push(product);
+        dashboardRenderer(newArr);
+
+        //clear the input values in all input box
+        productInput.value = "";
+        priceInput.value = "";
+        urlInput.value = "";
+
+
+      } else {
+        alert("Please fill all these fields if you want to join PEPEGA community!.")
+      }
+      console.log(newArr);
+    })
+
+    function dashboardRenderer(productProperties) {
+      productList.innerHTML = "";
+      productProperties.forEach((product) => {
+        const createProducts = document.createElement("li");
+        createProducts.innerHTML = `
+                <div class = "flex w-full">
+                    <input type ="checkbox" id = "selectedProduct">
+                    <img src="${product.url}" alt="${product.name}" style="width: 100px; height: 100px;">
+                    <div class = "flex flex-col justify-center">
+                        <h4 class = "text-xl"><strong>Product:</strong> ${product.name}</h4>
+                        <p class = "text-xl"><strong>Price:</strong> $${product.price}</p>
+                      <div class = "pt-2">
+                        <button class="text-white bg-green-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium px-2 rounded-md" id ="editBtn">Edit</button>
+                        <button class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium px-2 rounded-md" id ="deleteBtn">Delete</button>
+                      </div>
+                    </div>
+                </div>
+            `;
+        createProducts.className = "flex justify-center md: items-center bg-red-200 px-4 py-2 m-2 rounded"
+        productList.appendChild(createProducts);
+
+        const editBtn = document.getElementById("editBtn");
+        const deleteBtn = document.getElementById("deleteBtn");
+      })
+    }
 
 
 
