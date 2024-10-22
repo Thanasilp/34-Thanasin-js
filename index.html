@@ -15,6 +15,7 @@
       <div class="flex justify-center pb-8">
         <img src="./public/pepe-money.gif" alt="pepe money" class="scale-125 hover:scale-150">
       </div>
+
       <!-- Product Form -->
       <h3 class="text-2xl pb-2 font-bold text-red-700 text-center hover:text-red-500">Add your PEPEGA item for selection
       </h3>
@@ -44,7 +45,7 @@
         </div>
       </section>
 
-      <!-- Product Form section -->
+      <!-- Cart section -->
       <section>
         <div class="flex justify-center">
           <h2 id="headingForProductForm"></h2>
@@ -75,12 +76,25 @@
       const priceInputValue = priceInput.value;
       const urlInputValue = urlInput.value;
 
+      // Check if the price input is a valid number greater than 0
+      if (priceInputValue <= 0 || isNaN(priceInputValue)) {
+        alert("Price must be a valid number greater than 0. ZERO mean FREE, you PEPEGA");
+        return; // Stop if the price is invalid
+      }
+
       //Check if the product name already exists
       const isDuplicate = newArr.some((product) => product.name.toLowerCase() === productInputValue.toLowerCase());
 
       if (isDuplicate) {
         alert("Product with this name already exists! Please choose a different name, YOU'RE SO PEPEGA.");
         return; // Stop the function here if duplicate is found
+      }
+
+      // Check if the URL has a valid image extension
+      const validImage = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+      if (!validImage.test(urlInputValue)) {
+        alert("Please provide a valid image URL that ends with .jpg, .jpeg, .png, or .gif. You can try putting PEPE img!");
+        return; // Stop if the image URL is invalid
       }
 
       if (productInputValue && priceInputValue && urlInputValue) {
