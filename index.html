@@ -4,26 +4,51 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Shopping Cart</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-  <div>
-    <div>
-      <h1>Shopping Cart</h1>
-      <h3>Add item for seletion</h3>
+  <div class="flex justify-center">
+    <div class="p-4">
+      <h1 class="text-4xl text-center text-red-600 font-extrabold">SHOPPING CART</h1>
+      <div class="flex justify-center pb-4">
+        <img src="./public/pepe-le-pew-rotate.gif" alt="pepe spin">
+      </div>
+
+      <h3 class="text-2xl pb-4 font-bold text-red-500">Add item for selection</h3>
       <div>
-        <span>Product Name:</span>
-        <input type="text" id="">
-        <span>Price:</span>
-        <input type="number">
-        <span>Image:</span>
-        <input type="url">
-        <button>Create Product</button>
+        <span class="text-xl">Product Name:</span>
+        <input type="text" id="productInput" class="border border-red-400 rounded-md flex-grow pl-2 mr-2">
+        <span class="text-xl">Price:</span>
+        <input type="text" id="priceInput" class="border border-red-400 rounded-md flex-grow pl-2 mr-2">
+        <span class="text-xl">Image:</span>
+        <input type="url" id="urlInput" class="border border-red-400 rounded-md flex-grow pl-2 mr-2">
+        <button type="button" id="createBtn"
+          class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-1 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Create
+          Product</button>
       </div>
     </div>
-    <div></div>
-    <div></div>
+    <div>
+      <ul id="productDashboard"></ul>
+    </div>
+    <div>
+      <ul id="productForm"></ul>
+    </div>
   </div>
 </body>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const productInput = document.getElementById("");
+    const priceInput = document.getElementById("");
+    const urlInput = document.getElementById("");
+    const createBtn = document.getElementById("");
+
+    let newArr = [];
+
+
+
+  })
+</script>
 
 </html>
